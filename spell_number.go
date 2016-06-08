@@ -9,7 +9,9 @@ import (
 
 // SpellNumber spells out given int in Russian.
 func SpellNumber(i int) (result string, err error) {
-	if i > 1000000 {
+	if i < 0 {
+		err = errors.New("Number is too small!")
+	} else if i > 1000000 {
 		err = errors.New("Number is too large!")
 	}
 	return
