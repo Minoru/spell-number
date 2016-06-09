@@ -8,6 +8,45 @@ import (
 
 // SpellNumber spells out given int in Russian.
 func SpellNumber(i int) (result string, err error) {
+	if i < 0 {
+		err = fmt.Errorf("%d: number is too small!", i)
+	} else if i > 1000000 {
+		err = fmt.Errorf("%d: number is too large!", i)
+	} else if i == 0 {
+		result = "ноль"
+	} else {
+		result, err = helper(i)
+	}
+	return
+}
+
+// Concatenates spelling of a number to result only if the spelling is
+// non-empty (i.e. if number is non-zero). Propagates existing errors, i.e.
+// will return immediately if err != nil.
+func addComponent(number int, result string, err error) (output string, out_err error) {
+	if err != nil {
+		out_err = err
+	} else {
+		str, spellErr := helper(number)
+		if spellErr != nil {
+			out_err = spellErr
+		} else {
+			output = result
+			if str != "" {
+				if output != "" {
+					output += " "
+				}
+				output += str
+			}
+		}
+	}
+
+	return
+}
+
+// Spells any number in [1; 999] range. NB: zero is handled higher up the call
+// stack, in SpellNumber.
+func helper(i int) (result string, err error) {
 	primitives := map[int]string {
 		0: "",
 
@@ -52,37 +91,9 @@ func SpellNumber(i int) (result string, err error) {
 		900: "девятьсот",
 	}
 
-	if i < 0 {
-		err = fmt.Errorf("%d: number is too small!", i)
-	} else if i > 1000000 {
-		err = fmt.Errorf("%d: number is too large!", i)
-	} else if _, ok := primitives[i]; ok {
+	if _, ok := primitives[i]; ok {
 		result = primitives[i]
 	} else {
-		// Concatenates spelling of a number to result only if the
-		// spelling is non-empty (i.e. if number is non-zero).
-		// Propagates existing errors, i.e. will return immediately if
-		// err != nil.
-		addComponent := func(number int, result string, err error) (output string, out_err error) {
-			if err != nil {
-				out_err = err
-			} else {
-				str, spellErr := SpellNumber(number)
-				if spellErr != nil {
-					out_err = spellErr
-				} else {
-					output = result
-					if str != "" {
-						if output != "" {
-							output += " "
-						}
-						output += str
-					}
-				}
-			}
-			return
-		}
-
 		digit := i % 10
 		dozens := i % 100 - digit
 		hundreds := i % 1000 - dozens - digit

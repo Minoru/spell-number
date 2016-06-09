@@ -96,3 +96,8 @@ func TestSpellNumber100To999(t *testing.T) {
 
 	runTests(tests, t)
 }
+
+func TestSpellNumberZero(t *testing.T) {
+	tests := map[int]string { 0: "ноль" }
+	runTests(tests, t)
+}
