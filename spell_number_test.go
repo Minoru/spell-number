@@ -83,3 +83,16 @@ func TestSpellNumber21To100(t *testing.T) {
 
 	runTests(tests, t)
 }
+
+func TestSpellNumber100To999(t *testing.T) {
+	tests := map[int]string {
+		194: "сто девяносто четыре",
+		285: "двести восемьдесят пять",
+		294: "двести девяносто четыре",
+		569: "пятьсот шестьдесят девять",
+		643: "шестьсот сорок три",
+		827: "восемьсот двадцать семь",
+	}
+
+	runTests(tests, t)
+}

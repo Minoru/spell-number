@@ -5,12 +5,13 @@ package main
 import (
 	"fmt"
 	"errors"
-	"strings"
 )
 
 // SpellNumber spells out given int in Russian.
 func SpellNumber(i int) (result string, err error) {
 	primitives := map[int]string {
+		0: "",
+
 		1: "один",
 		2: "два",
 		3: "три",
@@ -59,15 +60,39 @@ func SpellNumber(i int) (result string, err error) {
 	} else if _, ok := primitives[i]; ok {
 		result = primitives[i]
 	} else {
+		// Concatenates spelling of a number to result only if the
+		// spelling is non-empty (i.e. if number is non-zero).
+		// Propagates existing errors, i.e. will return immediately if
+		// err != nil.
+		addComponent := func(number int, result string, err error) (output string, out_err error) {
+			if err != nil {
+				out_err = err
+			} else {
+				str, spellErr := SpellNumber(number)
+				if spellErr != nil {
+					out_err = spellErr
+				} else {
+					output = result
+					if str != "" {
+						if output != "" {
+							output += " "
+						}
+						output += str
+					}
+				}
+			}
+			return
+		}
+
 		digit := i % 10
 		dozens := i % 100 - digit
+		hundreds := i % 1000 - dozens - digit
 
-		digitStr, digitErr := SpellNumber(digit)
-		dozensStr, dozensErr := SpellNumber(dozens)
+		result, err = addComponent(hundreds, result, err)
+		result, err = addComponent(dozens, result, err)
+		result, err = addComponent(digit, result, err)
 
-		if digitErr == nil && dozensErr == nil {
-			result = strings.Join([]string{dozensStr, digitStr}, " ")
-		} else {
+		if err != nil {
 			err = fmt.Errorf("No implementaton for input %d", i)
 		}
 	}
