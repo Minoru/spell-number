@@ -46,12 +46,10 @@ func addComponent(number int, result string, err error, isThousands bool) (outpu
 				// thousands, so there's no need to divide by
 				// 1000 or anything.
 				digit := number % 10
-				if digit == 1 {
-					output += " тысяча"
-				} else if digit > 1 && digit < 5 {
-					output += " тысячи"
-				} else {
-					output += " тысяч"
+				switch digit {
+				case 1: output += " тысяча"
+				case 2, 3, 4: output += " тысячи"
+				default: output += " тысяч"
 				}
 			}
 		}
