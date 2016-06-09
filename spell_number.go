@@ -99,8 +99,12 @@ func helper(i int) (result string, err error) {
 		hundreds := i % 1000 - dozens - digit
 
 		result, err = addComponent(hundreds, result, err)
-		result, err = addComponent(dozens, result, err)
-		result, err = addComponent(digit, result, err)
+		if _, ok := primitives[dozens + digit]; ok {
+			result, err = addComponent(dozens+digit, result, err)
+		} else {
+			result, err = addComponent(dozens, result, err)
+			result, err = addComponent(digit, result, err)
+		}
 	}
 
 	return
