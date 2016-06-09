@@ -7,7 +7,7 @@ func runTests(tests map[int]string, t *testing.T) {
 	for input, expected := range tests {
 		result, err := SpellNumber(input)
 		if result != expected || err != nil {
-			t.Errorf("For %d, got `%s' but `%s' expected", input, result, expected)
+			t.Errorf("For %d, got %#q but %#q expected", input, result, expected)
 		}
 	}
 }
