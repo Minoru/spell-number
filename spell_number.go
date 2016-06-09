@@ -4,7 +4,6 @@ package main
 
 import (
 	"fmt"
-	"errors"
 )
 
 // SpellNumber spells out given int in Russian.
@@ -54,9 +53,9 @@ func SpellNumber(i int) (result string, err error) {
 	}
 
 	if i < 0 {
-		err = errors.New("Number is too small!")
+		err = fmt.Errorf("%d: number is too small!", i)
 	} else if i > 1000000 {
-		err = errors.New("Number is too large!")
+		err = fmt.Errorf("%d: number is too large!", i)
 	} else if _, ok := primitives[i]; ok {
 		result = primitives[i]
 	} else {
