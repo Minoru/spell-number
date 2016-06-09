@@ -23,13 +23,13 @@ func SpellNumber(i int) (result string, err error) {
 // Concatenates spelling of a number to result only if the spelling is
 // non-empty (i.e. if number is non-zero). Propagates existing errors, i.e.
 // will return immediately if err != nil.
-func addComponent(number int, result string, err error, isThousands bool) (output string, out_err error) {
+func addComponent(number int, result string, err error, isThousands bool) (output string, outErr error) {
 	if err != nil {
-		out_err = err
+		outErr = err
 	} else {
 		str, spellErr := helper(number, isThousands)
 		if spellErr != nil {
-			out_err = spellErr
+			outErr = spellErr
 		} else {
 			output = result
 			if str != "" {
