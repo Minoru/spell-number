@@ -102,3 +102,8 @@ func TestSpellNumberZero(t *testing.T) {
 	tests := map[int]string { 0: "ноль" }
 	runTests(tests, t)
 }
+
+func TestSpellNumberMillion(t *testing.T) {
+	tests := map[int]string { 1000000: "один миллион" }
+	runTests(tests, t)
+}

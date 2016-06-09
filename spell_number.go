@@ -14,6 +14,8 @@ func SpellNumber(i int) (result string, err error) {
 		err = fmt.Errorf("%d: number is too large!", i)
 	} else if i == 0 {
 		result = "ноль"
+	} else if i == 1000000 {
+		result = "один миллион"
 	} else {
 		result, err = helper(i)
 	}
