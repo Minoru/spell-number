@@ -26,32 +26,33 @@ func SpellNumber(i int) (result string, err error) {
 func addComponent(number int, result string, err error, isThousands bool) (output string, outErr error) {
 	if err != nil {
 		outErr = err
-	} else {
-		str, spellErr := helper(number, isThousands)
-		if spellErr != nil {
-			outErr = spellErr
-		} else {
-			output = result
-			if str != "" {
-				if output != "" {
-					output += " "
-				}
-				output += str
-			}
+		return
+	}
 
-			if isThousands {
-				// Just like primitives, "thousands" word
-				// changes with the last digit. NB: since
-				// isThousands is true, number is amount of
-				// thousands, so there's no need to divide by
-				// 1000 or anything.
-				digit := number % 10
-				switch digit {
-				case 1: output += " тысяча"
-				case 2, 3, 4: output += " тысячи"
-				default: output += " тысяч"
-				}
-			}
+	str, spellErr := helper(number, isThousands)
+	if spellErr != nil {
+		outErr = spellErr
+		return
+	}
+
+	output = result
+	if str != "" {
+		if output != "" {
+			output += " "
+		}
+		output += str
+	}
+
+	if isThousands {
+		// Just like primitives, "thousands" word changes with the last
+		// digit. NB: since isThousands is true, number is amount of
+		// thousands, so there's no need to divide by
+		// 1000 or anything.
+		digit := number % 10
+		switch digit {
+		case 1: output += " тысяча"
+		case 2, 3, 4: output += " тысячи"
+		default: output += " тысяч"
 		}
 	}
 
