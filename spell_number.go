@@ -2,22 +2,20 @@
 // in Russian.
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // SpellNumber spells out given int in Russian.
 func SpellNumber(i int) (result string, err error) {
-	if i < 0 {
-		err = fmt.Errorf("%d: number is too small!", i)
-	} else if i > 1000000 {
-		err = fmt.Errorf("%d: number is too large!", i)
-	} else if i == 0 {
-		result = "ноль"
-	} else if i == 1000000 {
-		result = "один миллион"
-	} else {
-		result, err = helper(i, false)
+	switch {
+	// error cases
+	case i < 0: err = fmt.Errorf("%d: number is too small!", i)
+	case i > 1000000: err = fmt.Errorf("%d: number is too large!", i)
+
+	//corner cases
+	case i == 0: result = "ноль"
+	case i == 1000000: result = "один миллион"
+
+	default: result, err = helper(i, false)
 	}
 	return
 }
