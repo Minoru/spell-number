@@ -3,6 +3,15 @@ package main
 
 import "testing"
 
+func runTests(tests map[int]string, t *testing.T) {
+	for input, expected := range tests {
+		result, err := SpellNumber(input)
+		if result != expected || err != nil {
+			t.Errorf("For %d, got `%s' but `%s' expected", input, result, expected)
+		}
+	}
+}
+
 func TestSpellNumberTooLarge(t *testing.T) {
 	// Should return error if input is too large
 	_, err := SpellNumber(1000001)
@@ -62,10 +71,15 @@ func TestSpellNumberPrimitives(t *testing.T) {
 		900: "девятьсот",
 	}
 
-	for input, expected := range tests {
-		result, err := SpellNumber(input)
-		if result != expected || err != nil {
-			t.Errorf("For %d, got `%s' but `%s' expected", input, result, expected)
-		}
+	runTests(tests, t)
+}
+
+func TestSpellNumber21To100(t *testing.T) {
+	tests := map[int]string {
+		21: "двадцать один",
+		43: "сорок три",
+		99: "девяносто девять",
 	}
+
+	runTests(tests, t)
 }

@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"errors"
+	"strings"
 )
 
 // SpellNumber spells out given int in Russian.
@@ -58,7 +59,17 @@ func SpellNumber(i int) (result string, err error) {
 	} else if _, ok := primitives[i]; ok {
 		result = primitives[i]
 	} else {
-		err = fmt.Errorf("No implementaton for input %d", i)
+		digit := i % 10
+		dozens := i % 100 - digit
+
+		digitStr, digitErr := SpellNumber(digit)
+		dozensStr, dozensErr := SpellNumber(dozens)
+
+		if digitErr == nil && dozensErr == nil {
+			result = strings.Join([]string{dozensStr, digitStr}, " ")
+		} else {
+			err = fmt.Errorf("No implementaton for input %d", i)
+		}
 	}
 
 	return
