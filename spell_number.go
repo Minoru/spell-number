@@ -114,8 +114,7 @@ var primitives = map[int]Primitive {
 // Spells any number in [1; 999] range. NB: zero is handled higher up the call
 // stack, in SpellNumber.
 func helper(i int, isThousands bool) (result string, err error) {
-	if _, ok := primitives[i]; ok {
-		prim := primitives[i]
+	if prim, ok := primitives[i]; ok {
 		if isThousands && prim.thousands != "" {
 			result = prim.thousands
 		} else {
