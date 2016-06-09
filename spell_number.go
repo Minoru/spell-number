@@ -101,10 +101,6 @@ func helper(i int) (result string, err error) {
 		result, err = addComponent(hundreds, result, err)
 		result, err = addComponent(dozens, result, err)
 		result, err = addComponent(digit, result, err)
-
-		if err != nil {
-			err = fmt.Errorf("No implementaton for input %d", i)
-		}
 	}
 
 	return
